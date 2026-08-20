@@ -1,28 +1,32 @@
 import { useReveal } from "../../hooks/useReveal";
-import { TextureBlock } from "../placeholder/TextureBlock";
 import { BottleStage } from "../placeholder/BottleStage";
-import { SculptedBottle, VARIANT_SWATCH } from "../placeholder/SculptedBottle";
+import { VARIANT_SWATCH } from "../placeholder/SculptedBottle";
+import { products } from "../../data/products";
+
+const solaris = products.find((p) => p.slug === "solaris")!;
 
 const CHAPTERS = [
   {
     index: "01",
     title: "Sourcing",
-    texture: "wood" as const,
+    photo: "/images/products/craft-sourcing.jpg",
+    objectPosition: "50% 58%",
     copy: "We work with a small group of growers and distillers across Karnataka, Kannauj and Grasse — vetiver roots, sandalwood, and the black pepper that anchors half the collection. Nothing is sourced because it is cheaper. Only because it is right.",
   },
   {
     index: "02",
     title: "Blending",
-    texture: "spice" as const,
+    photo: "/images/products/craft-blending.jpg",
+    objectPosition: "68% 48%",
     copy: "Every formula goes through eleven revisions before it earns a name. Our perfumer blends in small batches, by hand, testing how each note wears over a fourteen-hour day — not how it performs in the first ten minutes on a paper strip.",
   },
   {
     index: "03",
     title: "The Bottle",
-    texture: "glass" as const,
+    photo: solaris.photoImage!,
     copy: "Weighted glass, a brushed cap, and a label you can actually read. The bottle is designed to survive a desk drawer and a travel bag for years — built to be refilled, not replaced.",
   },
-];
+] as const;
 
 export function TheCraft() {
   return (
@@ -50,13 +54,14 @@ export function TheCraft() {
 interface ChapterProps {
   index: string;
   title: string;
-  texture: "wood" | "spice" | "glass";
+  photo: string;
+  objectPosition?: string;
   copy: string;
   reverse: boolean;
   standout: boolean;
 }
 
-function Chapter({ index, title, texture, copy, reverse, standout }: ChapterProps) {
+function Chapter({ index, title, photo, objectPosition, copy, reverse, standout }: ChapterProps) {
   const { ref, revealed } = useReveal<HTMLDivElement>(0.25);
 
   const stageStyle = standout
@@ -83,17 +88,27 @@ function Chapter({ index, title, texture, copy, reverse, standout }: ChapterProp
         {standout ? (
           <BottleStage
             className="aspect-[16/10] w-full ease-[cubic-bezier(0.16,1,0.3,1)]"
-            glow={VARIANT_SWATCH.nearBlack}
+            glow={VARIANT_SWATCH.amber}
             style={stageStyle}
           >
-            <SculptedBottle variant="nearBlack" className="h-[80%] w-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]" />
+            <img
+              src={photo}
+              alt="Eleganz Solaris — the finished bottle, photographed in warm studio light"
+              className="h-[80%] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+            />
           </BottleStage>
         ) : (
-          <TextureBlock
-            variant={texture}
-            className="flex aspect-[16/10] items-center justify-center ease-[cubic-bezier(0.16,1,0.3,1)]"
+          <div
+            className="grain relative aspect-[16/10] w-full overflow-hidden ease-[cubic-bezier(0.16,1,0.3,1)]"
             style={stageStyle}
-          />
+          >
+            <img
+              src={photo}
+              alt={`Eleganz — ${title.toLowerCase()}`}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ objectPosition }}
+            />
+          </div>
         )}
       </div>
 
