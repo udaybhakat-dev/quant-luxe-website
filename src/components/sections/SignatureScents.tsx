@@ -54,10 +54,19 @@ export function SignatureScents() {
               <span className="label-caps absolute right-6 top-6 text-parchment/60">
                 {VARIANT_LABEL[selected.bottleVariant]} Glass
               </span>
-              <SculptedBottle
-                variant={selected.bottleVariant}
-                className="h-[82%] w-auto drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
-              />
+              {selected.photoImage ? (
+                <img
+                  key={selected.id}
+                  src={selected.photoImage}
+                  alt={`Eleganz ${selected.name} — photorealistic product bottle`}
+                  className="bottle-photo h-full w-full object-contain p-10 drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                />
+              ) : (
+                <SculptedBottle
+                  variant={selected.bottleVariant}
+                  className="h-[82%] w-auto drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                />
+              )}
             </BottleStage>
           </div>
 

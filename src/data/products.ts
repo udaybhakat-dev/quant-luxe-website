@@ -89,6 +89,7 @@ export const products: Product[] = [
     volumeMl: 50,
     texture: "wood",
     bottleVariant: "smokedCharcoal",
+    photoImage: "/images/products/eleganz-vetiver-ash.jpg",
     mood: "Smoky and grounded — for boardrooms that run late.",
   },
   {
@@ -102,6 +103,7 @@ export const products: Product[] = [
     volumeMl: 50,
     texture: "leather",
     bottleVariant: "deepBrown",
+    photoImage: "/images/products/eleganz-cognac-folio.jpg",
     mood: "Worn leather and warmth — for dinners that matter.",
   },
   {
@@ -115,6 +117,7 @@ export const products: Product[] = [
     volumeMl: 50,
     texture: "spice",
     bottleVariant: "nearBlack",
+    photoImage: "/images/products/eleganz-black-pepper-ledger.jpg",
     mood: "Sharp, precise, unshowy — noticed only up close.",
   },
   {
@@ -128,6 +131,7 @@ export const products: Product[] = [
     volumeMl: 50,
     texture: "atelier",
     bottleVariant: "burgundy",
+    photoImage: "/images/products/eleganz-saffron-atelier.jpg",
     mood: "Formal and rich — the collection's most ceremonial note.",
   },
   {
@@ -141,6 +145,7 @@ export const products: Product[] = [
     volumeMl: 50,
     texture: "linen",
     bottleVariant: "forestGreen",
+    photoImage: "/images/products/eleganz-fig-copper.jpg",
     mood: "Green and daylight-bright — desk to dinner in one spray.",
   },
   {
@@ -154,6 +159,7 @@ export const products: Product[] = [
     volumeMl: 50,
     texture: "glass",
     bottleVariant: "warmAmber",
+    photoImage: "/images/products/eleganz-amber-study.jpg",
     mood: "The house signature — warm amber worn as an everyday habit, not an occasion.",
   },
 ];

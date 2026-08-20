@@ -154,6 +154,21 @@
     transform: translateY(0);
   }
 
+  /* Product photo cross-fade when switching the selected fragrance */
+  @keyframes bottle-photo-in {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .bottle-photo {
+    animation: bottle-photo-in 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal {
       opacity: 1 !important;
