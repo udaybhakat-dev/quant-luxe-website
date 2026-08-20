@@ -9,47 +9,61 @@ interface GlassStops {
   deep: string;
 }
 
-interface MetalStops {
-  shade: string;
-  highlight: string;
-  mid: string;
-  deep: string;
-}
-
 const GLASS: Record<BottleVariant, GlassStops> = {
-  obsidian: { edge: "#0a0908", highlight: "#4a443f", mid: "#24211f", shade: "#131110", deep: "#050404" },
-  noir: { edge: "#170a0a", highlight: "#7a3230", mid: "#3d1a19", shade: "#22100f", deep: "#0f0707" },
-  amber: { edge: "#3a230e", highlight: "#c9863f", mid: "#8a5726", shade: "#5c3814", deep: "#2c1a09" },
-  azure: { edge: "#0a1218", highlight: "#4a6d82", mid: "#22384a", shade: "#141f28", deep: "#070d11" },
-  verdant: { edge: "#0d150e", highlight: "#4a6e4f", mid: "#223a26", shade: "#131f15", deep: "#070b08" },
+  amber: { edge: "#e8a355", highlight: "#c9863f", mid: "#8a5726", shade: "#5c3814", deep: "#2c1a09" },
+  smokedCharcoal: { edge: "#5a564f", highlight: "#3a3630", mid: "#242119", shade: "#151310", deep: "#0a0908" },
+  deepBrown: { edge: "#8a5a35", highlight: "#6b4426", mid: "#4a2f1a", shade: "#2e1c10", deep: "#160d07" },
+  nearBlack: { edge: "#3a3936", highlight: "#232220", mid: "#141312", shade: "#0a0908", deep: "#020202" },
+  burgundy: { edge: "#7a2530", highlight: "#5c1a22", mid: "#3a1015", shade: "#220a0c", deep: "#100405" },
+  forestGreen: { edge: "#3d5c3f", highlight: "#2a4530", mid: "#1a2e1d", shade: "#0f1c11", deep: "#070f09" },
+  warmAmber: { edge: "#d99a52", highlight: "#b87a3a", mid: "#7a4f24", shade: "#4a2f15", deep: "#241608" },
 };
 
-const METAL: Record<BottleVariant, MetalStops> = {
-  obsidian: { shade: "#6b551c", highlight: "#f0d78c", mid: "#d4af37", deep: "#4a3a14" },
-  noir: { shade: "#4a3322", highlight: "#c98a5a", mid: "#9c6a3f", deep: "#3a2818" },
-  amber: { shade: "#6b551c", highlight: "#f0d78c", mid: "#d4af37", deep: "#4a3a14" },
-  azure: { shade: "#3d434a", highlight: "#c7d0d8", mid: "#8a95a0", deep: "#2c3136" },
-  verdant: { shade: "#4a4222", highlight: "#c4b46e", mid: "#8a7a3c", deep: "#332c15" },
-};
+/** Consistent gold/brass across the whole collection — matches the campaign reference. */
+const METAL = { shade: "#7a6423", highlight: "#f5e0a3", mid: "#d4af37", deep: "#5c4a1a" };
 
 /** Representative swatch colour per variant, for selector dots/chips. */
 export const VARIANT_SWATCH: Record<BottleVariant, string> = {
-  obsidian: GLASS.obsidian.highlight,
-  noir: GLASS.noir.highlight,
   amber: GLASS.amber.highlight,
-  azure: GLASS.azure.highlight,
-  verdant: GLASS.verdant.highlight,
+  smokedCharcoal: GLASS.smokedCharcoal.highlight,
+  deepBrown: GLASS.deepBrown.highlight,
+  nearBlack: GLASS.nearBlack.highlight,
+  burgundy: GLASS.burgundy.highlight,
+  forestGreen: GLASS.forestGreen.highlight,
+  warmAmber: GLASS.warmAmber.highlight,
 };
 
 export const VARIANT_LABEL: Record<BottleVariant, string> = {
-  obsidian: "Obsidian",
-  noir: "Noir",
   amber: "Amber",
-  azure: "Azure",
-  verdant: "Verdant",
+  smokedCharcoal: "Smoked Charcoal",
+  deepBrown: "Deep Brown",
+  nearBlack: "Near-Black",
+  burgundy: "Burgundy",
+  forestGreen: "Forest Green",
+  warmAmber: "Warm Amber",
 };
 
+/** Smooth, symmetric rounded-shoulder decanter silhouette. */
 const BODY_PATH = `
+  M 80,130
+  C 75.67,145 48.33,153 44,168
+  C 39.67,183 51.33,202.17 54,220
+  C 56.67,237.83 60.33,256.67 60,275
+  C 59.67,293.33 52.33,310 52,330
+  C 51.67,350 55.33,378 58,395
+  C 60.67,412 65.33,415 68,432
+  L 172,432
+  C 174.67,415 179.33,412 182,395
+  C 184.67,378 188.33,350 188,330
+  C 187.67,310 180.33,293.33 180,275
+  C 179.67,256.67 183.33,237.83 186,220
+  C 188.67,202.17 200.33,183 196,168
+  C 191.67,153 164.33,145 160,130
+  Z
+`;
+
+/** The house's original face-profile path, reused at ~50% scale as an inset carved relief. */
+const RELIEF_PATH = `
   M 95,125
   C 95,135.5 63,147.5 60,158
   C 57,168.5 82.67,177.33 80,188
@@ -78,93 +92,111 @@ interface SculptedBottleProps {
   className?: string;
   /** Fill level of the liquid line, 0 (empty) to 1 (full). Defaults to a natural ~62% fill. */
   fillLevel?: number;
-  showWordmark?: boolean;
 }
 
 /**
- * Hand-authored sculptural bottle silhouette — a face profile (brow, eye,
- * nose, lips, chin) carved into one side of the glass, topped with a
- * fluted metal cap. Deterministic SVG, no raster assets, so every variant
- * renders identically everywhere and swaps cleanly for real product
- * photography later. See README "Remaining placeholders".
+ * Hand-authored sculptural bottle — a smooth, symmetric decanter silhouette
+ * (not a jagged edge) with a human profile carved in relief on the front
+ * glass, topped with a fluted gold cap and an engraved collar band.
+ * Deterministic SVG, no raster assets, so every variant renders identically
+ * everywhere and swaps cleanly for real product photography later. See
+ * README "Remaining placeholders".
  */
-export function SculptedBottle({ variant, className = "", fillLevel = 0.62, showWordmark = true }: SculptedBottleProps) {
+export function SculptedBottle({ variant, className = "", fillLevel = 0.58 }: SculptedBottleProps) {
   const uid = useId().replace(/:/g, "");
   const glassId = `glass-${uid}`;
   const metalId = `metal-${uid}`;
   const clipId = `clip-${uid}`;
   const g = GLASS[variant];
-  const m = METAL[variant];
 
-  const liquidTopY = 124 + (432 - 124) * (1 - fillLevel);
+  const liquidTopY = 130 + (432 - 130) * (1 - fillLevel);
 
   return (
-    <svg viewBox="0 0 220 460" className={className} role="img" aria-label={`Quant Luxe bottle — ${variant} glass`}>
+    <svg viewBox="0 0 240 480" className={className} role="img" aria-label={`Eleganz bottle — ${VARIANT_LABEL[variant]} glass`}>
       <defs>
         {/* stop-color set via style (not the attribute) so switching variant
             on the same mounted instance cross-fades smoothly via CSS
             transition instead of snapping instantly. */}
-        <linearGradient id={glassId} x1="0" y1="0" x2="1" y2="0.1">
+        <linearGradient id={glassId} x1="0.1" y1="0" x2="0.85" y2="1">
           <stop offset="0%" style={{ stopColor: g.edge, transition: "stop-color 500ms ease" }} />
-          <stop offset="20%" style={{ stopColor: g.highlight, transition: "stop-color 500ms ease" }} />
-          <stop offset="45%" style={{ stopColor: g.mid, transition: "stop-color 500ms ease" }} />
-          <stop offset="72%" style={{ stopColor: g.shade, transition: "stop-color 500ms ease" }} />
+          <stop offset="18%" style={{ stopColor: g.highlight, transition: "stop-color 500ms ease" }} />
+          <stop offset="42%" style={{ stopColor: g.mid, transition: "stop-color 500ms ease" }} />
+          <stop offset="70%" style={{ stopColor: g.shade, transition: "stop-color 500ms ease" }} />
           <stop offset="100%" style={{ stopColor: g.deep, transition: "stop-color 500ms ease" }} />
         </linearGradient>
         <linearGradient id={metalId} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" style={{ stopColor: m.shade, transition: "stop-color 500ms ease" }} />
-          <stop offset="35%" style={{ stopColor: m.highlight, transition: "stop-color 500ms ease" }} />
-          <stop offset="55%" style={{ stopColor: m.mid, transition: "stop-color 500ms ease" }} />
-          <stop offset="100%" style={{ stopColor: m.deep, transition: "stop-color 500ms ease" }} />
+          <stop offset="0%" stopColor={METAL.shade} />
+          <stop offset="30%" stopColor={METAL.highlight} />
+          <stop offset="50%" stopColor={METAL.mid} />
+          <stop offset="75%" stopColor={METAL.shade} />
+          <stop offset="100%" stopColor={METAL.deep} />
         </linearGradient>
         <clipPath id={clipId}>
           <path d={BODY_PATH} />
         </clipPath>
       </defs>
 
-      {/* Neck — drawn first, extends behind the body's top seam */}
-      <path fill={`url(#${glassId})`} d="M 86,86 L 134,86 L 127,130 L 93,130 Z" />
+      {/* Neck — drawn first, behind the body's top seam */}
+      <path fill={`url(#${glassId})`} d="M 96,92 L 144,92 L 160,130 L 80,130 Z" />
 
-      {/* Body / sculpted face profile */}
+      {/* Body — smooth rounded decanter */}
       <path fill={`url(#${glassId})`} stroke="#1a1108" strokeWidth={1.5} strokeLinejoin="round" d={BODY_PATH} />
 
       {/* Neck side edges, drawn on top so they read cleanly against the body */}
-      <path d="M 86,86 L 93,124" fill="none" stroke="#1a1108" strokeWidth={1.5} />
-      <path d="M 134,86 L 122,130" fill="none" stroke="#1a1108" strokeWidth={1.5} />
+      <path d="M 96,92 L 80,130" fill="none" stroke="#1a1108" strokeWidth={1.5} />
+      <path d="M 144,92 L 160,130" fill="none" stroke="#1a1108" strokeWidth={1.5} />
 
-      {/* Subtle engraved brow + closed eye */}
-      <path d="M 68,182 C 73,178 80,178 85,182" fill="none" stroke="#1a1108" strokeWidth={1.2} opacity={0.5} strokeLinecap="round" />
-      <path d="M 70,195 C 75,199 82,199 87,195" fill="none" stroke="#1a1108" strokeWidth={1} opacity={0.38} strokeLinecap="round" />
-
-      {/* Liquid fill line + glass highlight streaks, clipped to the body silhouette */}
       <g clipPath={`url(#${clipId})`}>
-        <rect x="40" y={liquidTopY} width="150" height={432 - liquidTopY} fill="#000000" opacity={0.16} />
-        <line x1="40" y1={liquidTopY} x2="190" y2={liquidTopY} stroke="#f1e8d8" strokeWidth={1} opacity={0.3} />
-        <path d="M 150,140 C 160,220 158,320 150,420" fill="none" stroke="#f1e8d8" strokeWidth={7} opacity={0.14} strokeLinecap="round" />
-        <path d="M 158,160 C 166,230 164,310 158,400" fill="none" stroke="#f1e8d8" strokeWidth={2.5} opacity={0.2} strokeLinecap="round" />
-        {showWordmark && (
-          <text
-            x="131"
-            y="412"
-            textAnchor="middle"
-            fontFamily="'Cormorant', Georgia, serif"
-            fontSize="9.5"
-            letterSpacing="1.4"
-            fill="#f1e8d8"
-            opacity={0.55}
-          >
-            ELEGANZ
-          </text>
-        )}
+        {/* Liquid fill line */}
+        <rect x="30" y={liquidTopY} width="180" height={432 - liquidTopY} fill="#000000" opacity={0.14} />
+        <line x1="30" y1={liquidTopY} x2="210" y2={liquidTopY} stroke="#f1e8d8" strokeWidth={1} opacity={0.35} />
+
+        {/* Warm key-light highlight streaks (light from upper right) */}
+        <path d="M 175,150 C 190,220 188,320 178,420" fill="none" stroke="#ffe6b8" strokeWidth={10} opacity={0.16} strokeLinecap="round" />
+        <path d="M 182,165 C 194,230 192,310 184,400" fill="none" stroke="#fff3d6" strokeWidth={3} opacity={0.28} strokeLinecap="round" />
+
+        {/* Face relief — carved profile inset on the front glass, not the outer edge */}
+        <g transform="translate(58,150) scale(0.5)">
+          <path
+            fill="#000000"
+            fillOpacity={0.13}
+            stroke="#f1d9a8"
+            strokeWidth={1.4}
+            strokeOpacity={0.3}
+            d={RELIEF_PATH}
+          />
+          <path d="M 68,182 C 73,178 80,178 85,182" fill="none" stroke="#3a2410" strokeWidth={1.8} opacity={0.4} strokeLinecap="round" />
+          <path d="M 60,158 C 55,152 52,160 56,166" fill="none" stroke="#f1e8d8" strokeWidth={2} opacity={0.32} strokeLinecap="round" />
+        </g>
+
+        {/* Base engraving */}
+        <text
+          x="120"
+          y="410"
+          textAnchor="middle"
+          fontFamily="'Cormorant', Georgia, serif"
+          fontSize="11"
+          letterSpacing="2"
+          fill="#f1e8d8"
+          opacity={0.55}
+        >
+          ELEGANZ
+        </text>
       </g>
 
+      {/* Collar band with engraved wordmark */}
+      <rect x="86" y="80" width="68" height="16" rx="2" fill={`url(#${metalId})`} stroke="#1a1108" strokeWidth={1} />
+      <text x="120" y="91.5" textAnchor="middle" fontFamily="'Cormorant', Georgia, serif" fontSize="8" letterSpacing="1.5" fill="#3a2f0f" opacity={0.7}>
+        ELEGANZ
+      </text>
+
       {/* Cap */}
-      <rect x="85" y="15" width="50" height="60" rx="6" fill={`url(#${metalId})`} stroke="#1a1108" strokeWidth={1} />
-      <rect x="80" y="72" width="60" height="20" rx="3" fill={`url(#${metalId})`} stroke="#1a1108" strokeWidth={1} />
-      {/* Fluting on the cap */}
-      {[93, 101, 109, 117, 125].map((x) => (
-        <line key={x} x1={x} y1="22" x2={x} y2="68" stroke="#1a1108" strokeWidth={0.6} opacity={0.35} />
-      ))}
+      <rect x="90" y="10" width="60" height="70" rx="4" fill={`url(#${metalId})`} stroke="#1a1108" strokeWidth={1} />
+      <g opacity={0.4}>
+        {[98, 106, 114, 120, 126, 134, 142].map((x) => (
+          <line key={x} x1={x} y1="18" x2={x} y2="72" stroke="#1a1108" strokeWidth={0.7} />
+        ))}
+      </g>
     </svg>
   );
 }

@@ -83,10 +83,10 @@ function Chapter({ index, title, texture, copy, reverse, standout }: ChapterProp
         {standout ? (
           <BottleStage
             className="aspect-[16/10] w-full ease-[cubic-bezier(0.16,1,0.3,1)]"
-            glow={VARIANT_SWATCH.obsidian}
+            glow={VARIANT_SWATCH.nearBlack}
             style={stageStyle}
           >
-            <SculptedBottle variant="obsidian" className="h-[80%] w-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]" />
+            <SculptedBottle variant="nearBlack" className="h-[80%] w-auto drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]" />
           </BottleStage>
         ) : (
           <TextureBlock

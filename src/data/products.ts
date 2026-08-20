@@ -87,7 +87,7 @@ export const products: Product[] = [
     price: 4950,
     volumeMl: 50,
     texture: "wood",
-    bottleVariant: "obsidian",
+    bottleVariant: "smokedCharcoal",
     mood: "Smoky and grounded — for boardrooms that run late.",
   },
   {
@@ -100,7 +100,7 @@ export const products: Product[] = [
     price: 5400,
     volumeMl: 50,
     texture: "leather",
-    bottleVariant: "noir",
+    bottleVariant: "deepBrown",
     mood: "Worn leather and warmth — for dinners that matter.",
   },
   {
@@ -113,7 +113,7 @@ export const products: Product[] = [
     price: 4650,
     volumeMl: 50,
     texture: "spice",
-    bottleVariant: "azure",
+    bottleVariant: "nearBlack",
     mood: "Sharp, precise, unshowy — noticed only up close.",
   },
   {
@@ -126,7 +126,7 @@ export const products: Product[] = [
     price: 6200,
     volumeMl: 50,
     texture: "atelier",
-    bottleVariant: "noir",
+    bottleVariant: "burgundy",
     mood: "Formal and rich — the collection's most ceremonial note.",
   },
   {
@@ -139,7 +139,7 @@ export const products: Product[] = [
     price: 4800,
     volumeMl: 50,
     texture: "linen",
-    bottleVariant: "verdant",
+    bottleVariant: "forestGreen",
     mood: "Green and daylight-bright — desk to dinner in one spray.",
   },
   {
@@ -152,7 +152,7 @@ export const products: Product[] = [
     price: 5750,
     volumeMl: 50,
     texture: "glass",
-    bottleVariant: "amber",
+    bottleVariant: "warmAmber",
     mood: "The house signature — warm amber worn as an everyday habit, not an occasion.",
   },
 ];

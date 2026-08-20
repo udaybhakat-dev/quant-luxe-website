@@ -13,7 +13,14 @@ export interface FragranceNotes {
   base: string[];
 }
 
-export type BottleVariant = "obsidian" | "noir" | "amber" | "azure" | "verdant";
+export type BottleVariant =
+  | "amber"
+  | "smokedCharcoal"
+  | "deepBrown"
+  | "nearBlack"
+  | "burgundy"
+  | "forestGreen"
+  | "warmAmber";
 
 export interface FaqEntry {
   question: string;

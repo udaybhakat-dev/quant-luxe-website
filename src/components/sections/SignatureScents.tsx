@@ -40,7 +40,7 @@ export function SignatureScents() {
             <h2 className="font-display text-[2.4rem] text-espresso">Signature Scents</h2>
           </div>
           <p className="max-w-[34ch] text-right text-[0.95rem] leading-relaxed text-ink-soft">
-            One bottle silhouette, five glass finishes. Select a fragrance to
+            One bottle silhouette, seven glass finishes. Select a fragrance to
             see its own colour, notes and mood.
           </p>
         </div>
