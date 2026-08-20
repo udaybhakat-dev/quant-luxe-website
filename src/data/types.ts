@@ -13,6 +13,8 @@ export interface FragranceNotes {
   base: string[];
 }
 
+export type BottleVariant = "obsidian" | "noir" | "amber" | "azure" | "verdant";
+
 export interface FaqEntry {
   question: string;
   answer: string;
@@ -31,6 +33,10 @@ export interface Product {
   price: number;
   volumeMl: number;
   texture: TextureVariant;
+  /** Glass colour for the sculpted bottle design system */
+  bottleVariant: BottleVariant;
+  /** One-line personality/mood or occasion, shown in the collection showcase */
+  mood: string;
   /** Marks the house flagship — spotlighted on the homepage grid and given its own PDP */
   isFlagship?: boolean;
   tagline?: string;

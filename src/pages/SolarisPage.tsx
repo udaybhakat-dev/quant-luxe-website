@@ -7,7 +7,8 @@ import { trackEvent } from "../lib/analytics";
 import { products } from "../data/products";
 import { journalArticles } from "../data/journal";
 import { TextureBlock } from "../components/placeholder/TextureBlock";
-import { BottleGlyph } from "../components/placeholder/BottleGlyph";
+import { BottleStage } from "../components/placeholder/BottleStage";
+import { SculptedBottle, VARIANT_SWATCH } from "../components/placeholder/SculptedBottle";
 import { Breadcrumbs } from "../components/Breadcrumbs";
 import { Faq } from "../components/Faq";
 import { ChevronRight } from "../components/icons";
@@ -73,15 +74,15 @@ export function SolarisPage() {
 
           <div className="mt-10 grid grid-cols-12 gap-16">
             <div className="col-span-6">
-              <TextureBlock
-                variant={solaris.texture}
-                className="flex aspect-[4/5] items-center justify-center"
-              >
+              <BottleStage className="aspect-[4/5] w-full" glow={VARIANT_SWATCH[solaris.bottleVariant]}>
                 <span className="label-caps absolute left-6 top-6 text-parchment/90">
                   Flagship
                 </span>
-                <BottleGlyph className="h-[64%] w-auto opacity-90" stroke="#f1e8d8" />
-              </TextureBlock>
+                <SculptedBottle
+                  variant={solaris.bottleVariant}
+                  className="h-[78%] w-auto drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                />
+              </BottleStage>
             </div>
 
             <div className="col-span-6 flex flex-col justify-center">

@@ -12,6 +12,8 @@ export const products: Product[] = [
     price: 2999,
     volumeMl: 100,
     texture: "wood",
+    bottleVariant: "amber",
+    mood: "Fresh citrus energy that settles into quiet confidence — for warm days and long evenings.",
     isFlagship: true,
     tagline: "Fresh citrus. Aromatic sophistication. A deep woody finish.",
     notesDetail: {
@@ -85,6 +87,8 @@ export const products: Product[] = [
     price: 4950,
     volumeMl: 50,
     texture: "wood",
+    bottleVariant: "obsidian",
+    mood: "Smoky and grounded — for boardrooms that run late.",
   },
   {
     id: "cognac-folio",
@@ -96,6 +100,8 @@ export const products: Product[] = [
     price: 5400,
     volumeMl: 50,
     texture: "leather",
+    bottleVariant: "noir",
+    mood: "Worn leather and warmth — for dinners that matter.",
   },
   {
     id: "black-pepper-ledger",
@@ -107,6 +113,8 @@ export const products: Product[] = [
     price: 4650,
     volumeMl: 50,
     texture: "spice",
+    bottleVariant: "azure",
+    mood: "Sharp, precise, unshowy — noticed only up close.",
   },
   {
     id: "saffron-atelier",
@@ -118,6 +126,8 @@ export const products: Product[] = [
     price: 6200,
     volumeMl: 50,
     texture: "atelier",
+    bottleVariant: "noir",
+    mood: "Formal and rich — the collection's most ceremonial note.",
   },
   {
     id: "fig-copper",
@@ -129,6 +139,8 @@ export const products: Product[] = [
     price: 4800,
     volumeMl: 50,
     texture: "linen",
+    bottleVariant: "verdant",
+    mood: "Green and daylight-bright — desk to dinner in one spray.",
   },
   {
     id: "amber-study",
@@ -140,5 +152,7 @@ export const products: Product[] = [
     price: 5750,
     volumeMl: 50,
     texture: "glass",
+    bottleVariant: "amber",
+    mood: "The house signature — warm amber worn as an everyday habit, not an occasion.",
   },
 ];
