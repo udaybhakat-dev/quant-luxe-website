@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { TextureBlock } from "../placeholder/TextureBlock";
-import { BottleGlyph } from "../placeholder/BottleGlyph";
+import { BottleStage } from "../placeholder/BottleStage";
+import { SculptedBottle } from "../placeholder/SculptedBottle";
 import { ChevronRight } from "../icons";
 
 const HEADLINE_LINES = ["Confidence,", "worn quietly."];
@@ -14,15 +16,24 @@ export function Hero() {
   }, []);
 
   return (
-    <section id="top" className="relative h-screen min-h-[720px] w-full overflow-hidden">
+    <section id="top" className="relative h-screen min-h-[720px] w-full overflow-hidden bg-espresso">
       <div className="absolute inset-0 h-full w-full">
-        <TextureBlock variant="atelier" className="h-full w-full">
-          <div className="absolute inset-0 bg-gradient-to-t from-espresso/70 via-espresso/20 to-espresso/50" />
-          <BottleGlyph
-            stroke="#f1e8d8"
-            className="pointer-events-none absolute right-[8%] top-1/2 h-[560px] w-auto -translate-y-1/2 opacity-[0.08]"
-          />
+        <TextureBlock variant="atelier" className="h-full w-full opacity-70">
+          <div className="absolute inset-0 bg-gradient-to-r from-espresso via-espresso/85 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-espresso/80 via-transparent to-espresso/40" />
         </TextureBlock>
+      </div>
+
+      {/* Hero bottle — large, warm, campaign-style */}
+      <div
+        className={`absolute inset-y-0 right-0 w-[46%] transition-[opacity,transform] duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          loaded ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+        }`}
+        style={{ transitionDelay: "180ms" }}
+      >
+        <BottleStage className="h-full w-full" glow="#c9863f">
+          <SculptedBottle variant="amber" className="h-[86%] w-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]" />
+        </BottleStage>
       </div>
 
       <div className="container-site relative z-10 flex h-full flex-col justify-end pb-[112px]">
@@ -31,7 +42,7 @@ export function Hero() {
             loaded ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
           }`}
         >
-          Quant Luxe Lifestyle — The Field Notes Collection
+          Eleganz — The Field Notes Collection
         </p>
 
         <h1 className="max-w-[16ch] font-display text-[5.2rem] font-normal leading-[0.98] text-parchment">
@@ -56,23 +67,30 @@ export function Hero() {
           }`}
           style={{ transitionDelay: "480ms" }}
         >
-          Six fragrances, built from wood, leather, spice and paper — for the
-          man who would rather be remembered than noticed.
+          Eleganz Solaris — a long-lasting luxury perfume for men, built for
+          warm Indian summers: fresh citrus and aromatic notes over a deep
+          woody base.
         </p>
 
         <div
-          className={`mt-11 transition-all duration-700 ease-out ${
+          className={`mt-11 flex items-center gap-8 transition-all duration-700 ease-out ${
             loaded ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
           }`}
           style={{ transitionDelay: "620ms" }}
         >
-          <a
-            href="#shop"
+          <Link
+            to="/solaris"
             className="group label-caps inline-flex items-center gap-3 border border-parchment/70 px-8 py-4 text-parchment transition-colors duration-200 hover:border-cognac hover:bg-cognac"
           >
-            Explore the Collection
+            Discover Solaris
             <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-          </a>
+          </Link>
+          <Link
+            to="/#shop"
+            className="label-caps text-parchment/70 underline-offset-4 transition-colors hover:text-parchment hover:underline"
+          >
+            Browse the full collection
+          </Link>
         </div>
       </div>
     </section>
