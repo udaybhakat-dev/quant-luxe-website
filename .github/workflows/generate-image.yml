@@ -1,0 +1,116 @@
+name: Generate AI Image (Cloudflare Workers AI)
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: "Image prompt describing what to generate"
+        required: true
+        type: string
+      filename:
+        description: 'Output filename, e.g. "eleganz-solaris-hero" (".jpg" is added automatically if you omit it). No paths — the file always lands in public/images/products/.'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-image-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Generate image via Cloudflare Workers AI
+        env:
+          PROMPT: ${{ inputs.prompt }}
+          RAW_FILENAME: ${{ inputs.filename }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN and/or CLOUDFLARE_ACCOUNT_ID repository secrets are not set."
+            exit 1
+          fi
+
+          OUT_DIR="public/images/products"
+          mkdir -p "$OUT_DIR"
+
+          # --- Sanitize the requested filename: strip any path components and
+          # disallowed characters so this can only ever write inside $OUT_DIR. ---
+          SAFE_NAME="$(basename -- "$RAW_FILENAME" | sed -E 's/[^A-Za-z0-9_.-]/-/g; s/^\.+//')"
+          if [ -z "$SAFE_NAME" ]; then
+            echo "::error::filename input is empty or invalid after sanitization."
+            exit 1
+          fi
+          case "$SAFE_NAME" in
+            *.jpg|*.jpeg) OUTPUT_FILENAME="$SAFE_NAME" ;;
+            *) OUTPUT_FILENAME="${SAFE_NAME}.jpg" ;;
+          esac
+          OUTPUT_PATH="${OUT_DIR}/${OUTPUT_FILENAME}"
+
+          # --- Build the request body with jq so the prompt is safely JSON-escaped
+          # (never interpolated directly into a shell command). ---
+          REQUEST_BODY="$(jq -n --arg prompt "$PROMPT" '{prompt: $prompt, steps: 8}')"
+
+          API_URL="https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/black-forest-labs/flux-1-schnell"
+
+          HTTP_STATUS="$(curl -sS -o response.json -w '%{http_code}' \
+            -X POST "$API_URL" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data "$REQUEST_BODY")"
+
+          # Never echo the request headers/token. Only surface the response body
+          # (which contains no secret values) when something goes wrong.
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "::error::Cloudflare API request failed with HTTP status $HTTP_STATUS"
+            jq '{success, errors, messages}' response.json 2>/dev/null || cat response.json
+            exit 1
+          fi
+
+          SUCCESS="$(jq -r '.success' response.json)"
+          if [ "$SUCCESS" != "true" ]; then
+            echo "::error::Cloudflare API reported failure."
+            jq '{success, errors, messages}' response.json
+            exit 1
+          fi
+
+          IMAGE_B64="$(jq -r '.result.image' response.json)"
+          if [ -z "$IMAGE_B64" ] || [ "$IMAGE_B64" = "null" ]; then
+            echo "::error::Response did not contain result.image."
+            exit 1
+          fi
+
+          echo "$IMAGE_B64" | base64 -d > "$OUTPUT_PATH"
+          rm -f response.json
+
+          if [ ! -s "$OUTPUT_PATH" ]; then
+            echo "::error::Decoded image file is empty."
+            exit 1
+          fi
+
+          echo "Saved generated image to ${OUTPUT_PATH}"
+          echo "OUTPUT_PATH=${OUTPUT_PATH}" >> "$GITHUB_ENV"
+
+      - name: Commit and push generated image
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$OUTPUT_PATH"
+          if git diff --cached --quiet; then
+            echo "No changes to commit (image identical to existing file)."
+            exit 0
+          fi
+          git commit -m "Add AI-generated image: $(basename "$OUTPUT_PATH")"
+          git push origin "HEAD:${{ github.ref_name }}"
