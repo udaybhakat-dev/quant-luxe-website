@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       filename:
-        description: 'Output filename, e.g. "eleganz-solaris-hero" (".jpg" is added automatically if you omit it). No paths — the file always lands in public/images/products/.'
+        description: 'Output filename (no extension needed), e.g. "eleganz-solaris-hero". The correct extension is detected automatically from the generated image. No paths — the file always lands in public/images/products/.'
         required: true
         type: string
 
@@ -46,17 +46,19 @@ jobs:
           mkdir -p "$OUT_DIR"
 
           # --- Sanitize the requested filename: strip any path components and
-          # disallowed characters so this can only ever write inside $OUT_DIR. ---
+          # disallowed characters so this can only ever write inside $OUT_DIR.
+          # Any extension the caller typed is dropped here — the real
+          # extension is decided later from the actual decoded image bytes,
+          # never assumed up front. ---
           SAFE_NAME="$(basename -- "$RAW_FILENAME" | sed -E 's/[^A-Za-z0-9_.-]/-/g; s/^\.+//')"
           if [ -z "$SAFE_NAME" ]; then
             echo "::error::filename input is empty or invalid after sanitization."
             exit 1
           fi
-          case "$SAFE_NAME" in
-            *.jpg|*.jpeg) OUTPUT_FILENAME="$SAFE_NAME" ;;
-            *) OUTPUT_FILENAME="${SAFE_NAME}.jpg" ;;
-          esac
-          OUTPUT_PATH="${OUT_DIR}/${OUTPUT_FILENAME}"
+          BASE_NAME="${SAFE_NAME%.*}"
+          if [ -z "$BASE_NAME" ]; then
+            BASE_NAME="$SAFE_NAME"
+          fi
 
           # --- Build the request body with jq so the prompt is safely JSON-escaped
           # (never interpolated directly into a shell command). ---
@@ -91,15 +93,35 @@ jobs:
             exit 1
           fi
 
-          echo "$IMAGE_B64" | base64 -d > "$OUTPUT_PATH"
+          TMP_IMAGE="$(mktemp)"
+          echo "$IMAGE_B64" | base64 -d > "$TMP_IMAGE"
           rm -f response.json
 
-          if [ ! -s "$OUTPUT_PATH" ]; then
+          if [ ! -s "$TMP_IMAGE" ]; then
             echo "::error::Decoded image file is empty."
             exit 1
           fi
 
-          echo "Saved generated image to ${OUTPUT_PATH}"
+          # --- Detect the real image format from the decoded bytes (magic
+          # number), rather than assuming Cloudflare's output format. Flux
+          # models can return PNG, and hardcoding .jpg would mislabel it. ---
+          MIME_TYPE="$(file --brief --mime-type "$TMP_IMAGE")"
+          case "$MIME_TYPE" in
+            image/png) EXT="png" ;;
+            image/jpeg) EXT="jpg" ;;
+            image/webp) EXT="webp" ;;
+            image/gif) EXT="gif" ;;
+            *)
+              echo "::error::Decoded file is not a recognized image format (detected: ${MIME_TYPE})."
+              exit 1
+              ;;
+          esac
+
+          OUTPUT_FILENAME="${BASE_NAME}.${EXT}"
+          OUTPUT_PATH="${OUT_DIR}/${OUTPUT_FILENAME}"
+          mv "$TMP_IMAGE" "$OUTPUT_PATH"
+
+          echo "Detected format: ${MIME_TYPE} — saved generated image to ${OUTPUT_PATH}"
           echo "OUTPUT_PATH=${OUTPUT_PATH}" >> "$GITHUB_ENV"
 
       - name: Commit and push generated image

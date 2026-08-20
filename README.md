@@ -50,9 +50,10 @@ product image from a text prompt and commit it straight into
      subtle carved profile relief, dark metallic cap, warm cinematic studio
      lighting, dark background, editorial product photography`
    - **filename** — what to call the output file, e.g. `eleganz-solaris`
-     (`.jpg` is added automatically if you leave it off).
+     (no extension needed — the workflow detects the real image format
+     Cloudflare returns and appends the correct extension automatically).
 5. Click **Run workflow** and wait for it to finish — it pushes a new commit
-   to the branch you picked, adding `public/images/products/<filename>.jpg`.
+   to the branch you picked, adding `public/images/products/<filename>.<ext>`.
 
 The workflow reads the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`
 repository secrets to authenticate; it never prints, logs, or commits either
