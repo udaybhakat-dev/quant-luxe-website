@@ -27,10 +27,14 @@ export function TheCraft() {
   return (
     <section id="the-craft" className="bg-parchment-deep py-[140px]">
       <div className="container-site">
-        <p className="label-caps mb-4 text-cognac">The Craft</p>
-        <h2 className="mb-24 max-w-[20ch] font-display text-[2.4rem] text-espresso">
+        <p className="label-caps mb-4 text-cognac">The House</p>
+        <h2 className="max-w-[20ch] font-display text-[2.4rem] text-espresso">
           From root to bottle, nothing here is outsourced to guesswork.
         </h2>
+        <p className="mb-24 mt-5 max-w-[62ch] text-[1rem] leading-relaxed text-ink-soft">
+          Eleganz is the fragrance house of Quant Luxe Lifestyle Pvt. Ltd. —
+          everything below is how we actually make what we sell.
+        </p>
 
         <div className="flex flex-col gap-[104px]">
           {CHAPTERS.map((chapter, i) => (

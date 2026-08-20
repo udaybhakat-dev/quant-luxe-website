@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { TextureBlock } from "../placeholder/TextureBlock";
 import { BottleGlyph } from "../placeholder/BottleGlyph";
 import { ChevronRight } from "../icons";
 
-const HEADLINE_LINES = ["Confidence,", "worn quietly."];
+const HEADLINE_LINES = ["Citrus by day,", "woodsmoke by night."];
 
 export function Hero() {
   const [loaded, setLoaded] = useState(false);
@@ -31,7 +32,7 @@ export function Hero() {
             loaded ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
           }`}
         >
-          Quant Luxe Lifestyle — The Field Notes Collection
+          Eleganz — The Field Notes Collection
         </p>
 
         <h1 className="max-w-[16ch] font-display text-[5.2rem] font-normal leading-[0.98] text-parchment">
@@ -51,28 +52,35 @@ export function Hero() {
         </h1>
 
         <p
-          className={`mt-8 max-w-[46ch] text-[1.05rem] leading-relaxed text-parchment/80 transition-all duration-700 ease-out ${
+          className={`mt-8 max-w-[52ch] text-[1.05rem] leading-relaxed text-parchment/80 transition-all duration-700 ease-out ${
             loaded ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
           }`}
           style={{ transitionDelay: "480ms" }}
         >
-          Six fragrances, built from wood, leather, spice and paper — for the
-          man who would rather be remembered than noticed.
+          Eleganz Solaris — a long-lasting luxury perfume for men, built for
+          warm Indian summers: fresh citrus and aromatic notes over a deep
+          woody base.
         </p>
 
         <div
-          className={`mt-11 transition-all duration-700 ease-out ${
+          className={`mt-11 flex items-center gap-8 transition-all duration-700 ease-out ${
             loaded ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
           }`}
           style={{ transitionDelay: "620ms" }}
         >
-          <a
-            href="#shop"
+          <Link
+            to="/solaris"
             className="group label-caps inline-flex items-center gap-3 border border-parchment/70 px-8 py-4 text-parchment transition-colors duration-200 hover:border-cognac hover:bg-cognac"
           >
-            Explore the Collection
+            Discover Solaris
             <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
-          </a>
+          </Link>
+          <Link
+            to="/#shop"
+            className="label-caps text-parchment/70 underline-offset-4 transition-colors hover:text-parchment hover:underline"
+          >
+            Browse the full collection
+          </Link>
         </div>
       </div>
     </section>
