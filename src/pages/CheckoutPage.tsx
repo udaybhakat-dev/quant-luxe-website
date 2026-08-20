@@ -46,7 +46,7 @@ export function CheckoutPage() {
           </p>
           <Link
             to="/solaris"
-            className="group label-caps mt-8 inline-flex items-center gap-3 border border-cognac bg-cognac px-8 py-4 text-parchment transition-colors duration-200 hover:bg-cognac-dark"
+            className="group label-caps mt-8 inline-flex items-center gap-3 border border-cognac bg-cognac px-8 py-4 text-parchment btn-premium hover:bg-cognac-dark"
           >
             Discover Eleganz Solaris
             <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -111,7 +111,7 @@ export function CheckoutPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="group label-caps mt-4 inline-flex items-center justify-center gap-3 border border-cognac bg-cognac px-9 py-4 text-parchment transition-colors duration-200 hover:bg-cognac-dark disabled:opacity-60"
+              className="group label-caps mt-4 inline-flex items-center justify-center gap-3 border border-cognac bg-cognac px-9 py-4 text-parchment btn-premium hover:bg-cognac-dark disabled:opacity-60"
             >
               Complete Demo Purchase
               <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />

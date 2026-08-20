@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
+import { useReveal } from "../../hooks/useReveal";
 
 interface FooterLink {
   label: string;
@@ -40,6 +41,7 @@ const FOOTER_COLUMNS: { heading: string; links: FooterLink[] }[] = [
 
 export function NewsletterFooter() {
   const [submitted, setSubmitted] = useState(false);
+  const { ref, revealed } = useReveal<HTMLDivElement>();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,8 +50,12 @@ export function NewsletterFooter() {
 
   return (
     <footer className="bg-espresso text-parchment">
-      <div className="container-site border-b border-parchment/12 py-[88px]">
-        <div className="flex flex-col items-center text-center">
+      <div className="depth-glow-dark relative border-b border-parchment/12 py-[88px]">
+        <div
+          ref={ref}
+          data-revealed={revealed}
+          className="reveal container-site relative z-10 flex flex-col items-center text-center"
+        >
           <h2 className="max-w-[24ch] font-display text-[2rem] text-parchment">
             Private updates on new fragrances, before they're public.
           </h2>
@@ -72,7 +78,7 @@ export function NewsletterFooter() {
               />
               <button
                 type="submit"
-                className="label-caps shrink-0 border border-cognac bg-cognac px-6 py-3.5 text-parchment transition-colors duration-200 hover:bg-cognac-dark"
+                className="label-caps shrink-0 border border-cognac bg-cognac px-6 py-3.5 text-parchment btn-premium hover:bg-cognac-dark"
               >
                 Join
               </button>

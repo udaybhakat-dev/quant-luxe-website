@@ -33,7 +33,7 @@ export function Hero() {
         }`}
         style={{ transitionDelay: "180ms" }}
       >
-        <BottleStage className="h-full w-full" glow="#c9863f">
+        <BottleStage className="h-full w-full" glow="#c9863f" animated>
           {solaris.photoImage ? (
             <img
               src={solaris.photoImage}
@@ -90,14 +90,14 @@ export function Hero() {
         >
           <Link
             to="/solaris"
-            className="group label-caps inline-flex items-center gap-3 border border-parchment/70 px-8 py-4 text-parchment transition-colors duration-200 hover:border-cognac hover:bg-cognac"
+            className="btn-premium group label-caps inline-flex items-center gap-3 border border-parchment/70 px-8 py-4 text-parchment hover:border-cognac hover:bg-cognac"
           >
             Discover Solaris
-            <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+            <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
           </Link>
           <Link
             to="/#shop"
-            className="label-caps text-parchment/70 underline-offset-4 transition-colors hover:text-parchment hover:underline"
+            className="group label-caps relative text-parchment/70 transition-colors duration-300 hover:text-parchment after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-parchment after:transition-[width] after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:after:w-full"
           >
             Browse the full collection
           </Link>

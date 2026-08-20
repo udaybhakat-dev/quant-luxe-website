@@ -67,7 +67,7 @@ export function OrderConfirmationPage() {
         <div className="mt-10 flex items-center justify-center gap-8">
           <Link
             to="/"
-            className="group label-caps inline-flex items-center gap-3 border border-cognac bg-cognac px-8 py-4 text-parchment transition-colors duration-200 hover:bg-cognac-dark"
+            className="group label-caps inline-flex items-center gap-3 border border-cognac bg-cognac px-8 py-4 text-parchment btn-premium hover:bg-cognac-dark"
           >
             Back to Home
             <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />

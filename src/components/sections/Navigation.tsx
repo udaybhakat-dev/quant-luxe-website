@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useScrolled } from "../../hooks/useScrolled";
 import { useCart } from "../../context/CartContext";
@@ -14,14 +15,20 @@ const NAV_LINKS = [
 export function Navigation() {
   const scrolled = useScrolled(32);
   const { itemCount } = useCart();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setLoaded(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,color] duration-200 ease-out ${
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,color,opacity,transform] duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
         scrolled
           ? "bg-parchment/95 border-b border-sand-line text-espresso backdrop-blur-sm"
           : "bg-transparent border-b border-transparent text-parchment"
-      }`}
+      } ${loaded ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"}`}
     >
       <div className="container-site flex h-[84px] items-center justify-between">
         <Link to="/" className="font-display text-[1.55rem] tracking-wide">
@@ -34,7 +41,7 @@ export function Navigation() {
               <li key={label}>
                 <Link
                   to={href}
-                  className="label-caps relative transition-colors hover:text-cognac after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-cognac after:transition-[width] after:duration-200 hover:after:w-full"
+                  className="label-caps relative transition-colors duration-300 hover:text-cognac after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-cognac after:transition-[width] after:duration-300 after:ease-[cubic-bezier(0.16,1,0.3,1)] hover:after:w-full"
                 >
                   {label}
                 </Link>

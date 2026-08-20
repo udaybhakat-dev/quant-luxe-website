@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "../icons";
+import { useReveal } from "../../hooks/useReveal";
 
 export function FindYourScent() {
+  const { ref, revealed } = useReveal<HTMLDivElement>();
+
   return (
-    <section id="find-your-scent" className="bg-sand py-[104px]">
-      <div className="container-site flex items-center justify-between gap-16">
+    <section id="find-your-scent" className="depth-glow-warm relative border-y border-cognac/15 bg-sand py-[104px]">
+      <div
+        ref={ref}
+        data-revealed={revealed}
+        className="reveal container-site relative z-10 flex items-center justify-between gap-16"
+      >
         <div className="max-w-[520px]">
           <h2 className="font-display text-[2rem] text-espresso">
             Not sure where to start?
@@ -18,7 +25,7 @@ export function FindYourScent() {
 
         <Link
           to="/solaris"
-          className="group label-caps flex shrink-0 items-center gap-3 border border-espresso/60 px-8 py-4 text-espresso transition-colors duration-200 hover:border-cognac hover:bg-cognac hover:text-parchment"
+          className="btn-premium group label-caps flex shrink-0 items-center gap-3 border border-espresso/60 px-8 py-4 text-espresso hover:border-cognac hover:bg-cognac hover:text-parchment"
         >
           Discover Eleganz Solaris
           <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />

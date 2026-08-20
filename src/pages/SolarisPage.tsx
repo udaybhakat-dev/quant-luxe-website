@@ -129,7 +129,7 @@ export function SolarisPage() {
                 <button
                   type="button"
                   onClick={handleAddToBag}
-                  className="label-caps inline-flex items-center gap-3 border border-cognac bg-cognac px-9 py-4 text-parchment transition-colors duration-200 hover:bg-cognac-dark"
+                  className="label-caps inline-flex items-center gap-3 border border-cognac bg-cognac px-9 py-4 text-parchment btn-premium hover:bg-cognac-dark"
                 >
                   Add to Bag
                 </button>
@@ -311,8 +311,8 @@ export function SolarisPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-espresso py-[104px] text-parchment">
-        <div className="container-site flex items-center justify-between gap-16">
+      <section className="depth-glow-dark relative bg-espresso py-[104px] text-parchment">
+        <div className="container-site relative z-10 flex items-center justify-between gap-16">
           <div>
             <h2 className="font-display text-[2rem] text-parchment">
               Eleganz Solaris — {priceFormatter.format(solaris.price)} for {solaris.volumeMl}ml
@@ -327,7 +327,7 @@ export function SolarisPage() {
           <button
             type="button"
             onClick={handleAddToBag}
-            className="label-caps inline-flex shrink-0 items-center gap-3 border border-cognac bg-cognac px-9 py-4 text-parchment transition-colors duration-200 hover:bg-cognac-dark"
+            className="label-caps inline-flex shrink-0 items-center gap-3 border border-cognac bg-cognac px-9 py-4 text-parchment btn-premium hover:bg-cognac-dark"
           >
             Add to Bag
           </button>

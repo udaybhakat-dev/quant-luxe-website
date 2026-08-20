@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { testimonials } from "../../data/testimonials";
 import { QuoteMark } from "../icons";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { useReveal } from "../../hooks/useReveal";
 
 const AUTO_ADVANCE_MS = 7000;
 
@@ -10,6 +11,7 @@ export function SocialProof() {
   const [paused, setPaused] = useState(false);
   const reducedMotion = useReducedMotion();
   const timerRef = useRef<number | null>(null);
+  const { ref, revealed } = useReveal<HTMLDivElement>();
 
   const goTo = useCallback((i: number) => {
     setActive((i + testimonials.length) % testimonials.length);
@@ -27,7 +29,7 @@ export function SocialProof() {
 
   return (
     <section
-      className="bg-espresso py-[136px] text-parchment"
+      className="depth-glow-dark relative bg-espresso py-[136px] text-parchment"
       aria-roledescription="carousel"
       aria-label="Client testimonials"
       onMouseEnter={() => setPaused(true)}
@@ -35,14 +37,18 @@ export function SocialProof() {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <div className="container-site flex flex-col items-center text-center">
+      <div
+        ref={ref}
+        data-revealed={revealed}
+        className="reveal container-site relative z-10 flex flex-col items-center text-center"
+      >
         <QuoteMark className="mb-10 h-9 w-11 text-cognac" />
 
         <div className="min-h-[168px] max-w-[760px]" aria-live="polite">
-          <p className="font-display text-[1.9rem] font-normal italic leading-[1.4] text-parchment">
+          <p key={active} className="copy-fade font-display text-[1.9rem] font-normal italic leading-[1.4] text-parchment">
             “{current.quote}”
           </p>
-          <p className="label-caps mt-8 text-sand">
+          <p key={`${active}-byline`} className="copy-fade label-caps mt-8 text-sand" style={{ animationDelay: "80ms" }}>
             {current.name} &mdash; {current.occasion}
           </p>
         </div>

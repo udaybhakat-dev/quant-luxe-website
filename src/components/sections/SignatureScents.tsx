@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { products } from "../../data/products";
 import { useCart } from "../../context/CartContext";
 import { trackEvent } from "../../lib/analytics";
+import { useReveal } from "../../hooks/useReveal";
 import { CollectionRow } from "../CollectionRow";
 import { BottleStage } from "../placeholder/BottleStage";
 import { SculptedBottle, VARIANT_LABEL, VARIANT_SWATCH } from "../placeholder/SculptedBottle";
@@ -20,6 +21,7 @@ export function SignatureScents() {
   const [selectedId, setSelectedId] = useState(flagship.id);
   const { addItem } = useCart();
   const selected = products.find((p) => p.id === selectedId) ?? flagship;
+  const { ref, revealed } = useReveal<HTMLDivElement>(0.1);
 
   function handleAddToBag() {
     addItem({
@@ -32,8 +34,8 @@ export function SignatureScents() {
   }
 
   return (
-    <section id="shop" className="bg-parchment py-[128px]">
-      <div className="container-site">
+    <section id="shop" className="depth-glow-warm relative bg-parchment py-[128px]">
+      <div className="container-site relative z-10">
         <div className="mb-16 flex items-end justify-between">
           <div>
             <p className="label-caps mb-4 text-cognac">The Collection</p>
@@ -45,7 +47,7 @@ export function SignatureScents() {
           </p>
         </div>
 
-        <div className="grid grid-cols-12 gap-16">
+        <div ref={ref} data-revealed={revealed} className="reveal grid grid-cols-12 gap-16">
           <div className="col-span-7">
             <BottleStage className="aspect-[4/5] w-full" glow={VARIANT_SWATCH[selected.bottleVariant]}>
               {selected.isFlagship && (
@@ -82,7 +84,7 @@ export function SignatureScents() {
               ))}
             </div>
 
-            <div className="mt-10 border-t border-cognac pt-8">
+            <div key={selected.id} className="copy-fade mt-10 border-t border-cognac pt-8">
               <h3 className="font-display text-[1.7rem] text-espresso">{selected.name}</h3>
               <p className="mt-2 font-display text-[1.05rem] italic leading-snug text-cognac">
                 {selected.mood}
@@ -119,7 +121,7 @@ export function SignatureScents() {
                     <button
                       type="button"
                       onClick={handleAddToBag}
-                      className="label-caps border border-cognac bg-cognac px-6 py-3 text-parchment transition-colors duration-200 hover:bg-cognac-dark"
+                      className="label-caps border border-cognac bg-cognac px-6 py-3 text-parchment btn-premium hover:bg-cognac-dark"
                     >
                       Add to Bag
                     </button>

@@ -38,7 +38,7 @@ export function BagPage() {
             <p className="text-[1rem] text-ink-soft">Your bag is empty.</p>
             <Link
               to="/solaris"
-              className="group label-caps mt-8 inline-flex items-center gap-3 border border-cognac bg-cognac px-8 py-4 text-parchment transition-colors duration-200 hover:bg-cognac-dark"
+              className="group label-caps mt-8 inline-flex items-center gap-3 border border-cognac bg-cognac px-8 py-4 text-parchment btn-premium hover:bg-cognac-dark"
             >
               Discover Eleganz Solaris
               <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
@@ -82,7 +82,7 @@ export function BagPage() {
               <button
                 type="button"
                 onClick={handleBeginCheckout}
-                className="group label-caps inline-flex items-center gap-3 border border-cognac bg-cognac px-9 py-4 text-parchment transition-colors duration-200 hover:bg-cognac-dark"
+                className="group label-caps inline-flex items-center gap-3 border border-cognac bg-cognac px-9 py-4 text-parchment btn-premium hover:bg-cognac-dark"
               >
                 Begin Checkout
                 <ChevronRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />

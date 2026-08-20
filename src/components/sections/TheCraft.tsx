@@ -30,8 +30,8 @@ const CHAPTERS = [
 
 export function TheCraft() {
   return (
-    <section id="the-craft" className="bg-parchment-deep py-[140px]">
-      <div className="container-site">
+    <section id="the-craft" className="depth-glow-warm relative bg-parchment-deep py-[140px]">
+      <div className="container-site relative z-10">
         <p className="label-caps mb-4 text-cognac">The House</p>
         <h2 className="max-w-[20ch] font-display text-[2.4rem] text-espresso">
           From root to bottle, nothing here is outsourced to guesswork.
@@ -94,7 +94,8 @@ function Chapter({ index, title, photo, objectPosition, copy, reverse, standout 
             <img
               src={photo}
               alt="Eleganz Solaris — the finished bottle, photographed in warm studio light"
-              className="h-[80%] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+              data-revealed={revealed}
+              className="image-kenburns h-[80%] w-auto object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
             />
           </BottleStage>
         ) : (
@@ -105,7 +106,8 @@ function Chapter({ index, title, photo, objectPosition, copy, reverse, standout 
             <img
               src={photo}
               alt={`Eleganz — ${title.toLowerCase()}`}
-              className="absolute inset-0 h-full w-full object-cover"
+              data-revealed={revealed}
+              className="image-kenburns absolute inset-0 h-full w-full object-cover"
               style={{ objectPosition }}
             />
           </div>

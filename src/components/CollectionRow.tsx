@@ -19,20 +19,20 @@ export function CollectionRow({ product, active, onSelect }: CollectionRowProps)
       type="button"
       onClick={onSelect}
       aria-pressed={active}
-      className={`flex w-full items-center gap-4 border-t border-sand-line py-4 text-left transition-colors duration-200 first:border-t-0 ${
-        active ? "text-espresso" : "text-ink-soft hover:text-espresso"
+      className={`group relative flex w-full items-center gap-4 border-t border-sand-line py-4 pl-0 text-left transition-[color,background-color,padding-left] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] first:border-t-0 hover:bg-cognac/[0.06] hover:pl-3 ${
+        active ? "bg-cognac/[0.04] pl-3 text-espresso" : "text-ink-soft"
       }`}
     >
       <span
-        className="h-3 w-3 shrink-0 rounded-full border border-black/10 transition-transform duration-200"
+        className="h-3 w-3 shrink-0 rounded-full border border-black/10 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
         style={{
           backgroundColor: VARIANT_SWATCH[product.bottleVariant],
-          transform: active ? "scale(1.25)" : "scale(1)",
+          transform: active ? "scale(1.25)" : undefined,
         }}
         aria-hidden="true"
       />
       <span className="flex-1">
-        <span className={`font-display text-[1.1rem] transition-colors duration-200 ${active ? "text-cognac" : ""}`}>
+        <span className={`font-display text-[1.1rem] transition-colors duration-300 ${active ? "text-cognac" : "group-hover:text-espresso"}`}>
           {product.name}
         </span>
         <span className="label-caps ml-3 text-ink-soft">{product.noteTag}</span>

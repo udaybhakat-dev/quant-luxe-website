@@ -4,11 +4,11 @@ export function BrandManifesto() {
   const { ref, revealed } = useReveal<HTMLDivElement>();
 
   return (
-    <section className="bg-parchment py-[140px]">
+    <section className="depth-glow-warm relative bg-parchment py-[140px]">
       <div
         ref={ref}
         data-revealed={revealed}
-        className="reveal container-site max-w-[980px]"
+        className="reveal container-site relative z-10 max-w-[980px]"
       >
         <p className="font-display text-[2.6rem] font-normal leading-[1.22] text-espresso">
           We built Quant Luxe on a simple bet: that a man who has already
