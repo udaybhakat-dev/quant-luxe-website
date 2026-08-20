@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useSeo } from "../hooks/useSeo";
-import { useReveal } from "../hooks/useReveal";
 import { journalArticles } from "../data/journal";
 import { TextureBlock } from "../components/placeholder/TextureBlock";
 import { Breadcrumbs } from "../components/Breadcrumbs";
+import { fadeUp, staggerContainer, viewportOnce } from "../lib/motion";
+
+const MotionLink = motion.create(Link);
 
 export function JournalIndexPage() {
-  const { ref, revealed } = useReveal<HTMLDivElement>(0.1);
-
   useSeo({
     title: "Eleganz Journal | Fragrance Guides for Men",
     description:
@@ -17,44 +18,51 @@ export function JournalIndexPage() {
 
   return (
     <section className="pt-[152px] pb-[128px]">
-      <div className="container-site">
+      <motion.div variants={fadeUp} initial="hidden" animate="visible" className="container-site">
         <Breadcrumbs trail={[{ label: "Home", to: "/" }, { label: "Journal" }]} />
 
-        <p className="label-caps mb-4 mt-10 text-cognac">The Journal</p>
-        <h1 className="max-w-[20ch] font-display text-[2.6rem] text-espresso">
+        <p className="label-caps mb-4 mt-10 text-gold">The Journal</p>
+        <h1 className="max-w-[20ch] font-display text-[2.6rem] text-ivory">
           Field notes on fragrance
         </h1>
-        <p className="mt-5 max-w-[60ch] text-[1rem] leading-relaxed text-ink-soft">
+        <p className="mt-5 max-w-[60ch] text-[1rem] leading-relaxed text-ivory/65">
           Guides on choosing, wearing and understanding men's fragrance —
           written to be useful before a purchase, not just around one.
         </p>
 
-        <div ref={ref} className="mt-16 grid grid-cols-3 gap-10">
-          {journalArticles.map((article, i) => (
-            <Link
+        <motion.div
+          variants={staggerContainer(0.1)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          className="mt-16 grid grid-cols-3 gap-10"
+        >
+          {journalArticles.map((article) => (
+            <MotionLink
               key={article.id}
               to={`/journal/${article.slug}`}
-              className="reveal group flex flex-col"
-              data-revealed={revealed}
-              style={{ transitionDelay: `${i * 90}ms` }}
+              variants={fadeUp}
+              whileHover="hover"
+              className="group flex flex-col"
             >
-              <TextureBlock
-                variant={article.texture}
-                className="mb-6 aspect-[4/3] transition-transform duration-500 ease-out group-hover:scale-[1.015]"
-              />
-              <p className="label-caps mb-3 text-sand">
+              <div className="mb-6 overflow-hidden rounded-[4px]">
+                <motion.div variants={{ hover: { scale: 1.06 } }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+                  <TextureBlock variant={article.texture} className="aspect-[4/3]" />
+                </motion.div>
+              </div>
+              <p className="label-caps mb-3 text-bronze">
                 {article.category} &middot; {article.readTime}
               </p>
-              <h2 className="font-display text-[1.35rem] leading-snug text-espresso transition-colors group-hover:text-cognac">
+              <h2 className="font-display text-[1.35rem] leading-snug text-ivory transition-colors group-hover:text-gold">
                 {article.title}
               </h2>
-              <p className="mt-2 text-[0.93rem] leading-relaxed text-ink-soft">
+              <p className="mt-2 text-[0.93rem] leading-relaxed text-ivory/60">
                 {article.excerpt}
               </p>
-            </Link>
+            </MotionLink>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

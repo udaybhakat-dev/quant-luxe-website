@@ -149,7 +149,7 @@ export function SculptedBottle({ variant, className = "", fillLevel = 0.58 }: Sc
       <g clipPath={`url(#${clipId})`}>
         {/* Liquid fill line */}
         <rect x="30" y={liquidTopY} width="180" height={432 - liquidTopY} fill="#000000" opacity={0.14} />
-        <line x1="30" y1={liquidTopY} x2="210" y2={liquidTopY} stroke="#f1e8d8" strokeWidth={1} opacity={0.35} />
+        <line x1="30" y1={liquidTopY} x2="210" y2={liquidTopY} stroke="#d6c2a8" strokeWidth={1} opacity={0.35} />
 
         {/* Warm key-light highlight streaks (light from upper right) */}
         <path d="M 175,150 C 190,220 188,320 178,420" fill="none" stroke="#ffe6b8" strokeWidth={10} opacity={0.16} strokeLinecap="round" />
@@ -160,13 +160,13 @@ export function SculptedBottle({ variant, className = "", fillLevel = 0.58 }: Sc
           <path
             fill="#000000"
             fillOpacity={0.13}
-            stroke="#f1d9a8"
+            stroke="#d6c2a8"
             strokeWidth={1.4}
             strokeOpacity={0.3}
             d={RELIEF_PATH}
           />
           <path d="M 68,182 C 73,178 80,178 85,182" fill="none" stroke="#3a2410" strokeWidth={1.8} opacity={0.4} strokeLinecap="round" />
-          <path d="M 60,158 C 55,152 52,160 56,166" fill="none" stroke="#f1e8d8" strokeWidth={2} opacity={0.32} strokeLinecap="round" />
+          <path d="M 60,158 C 55,152 52,160 56,166" fill="none" stroke="#d6c2a8" strokeWidth={2} opacity={0.32} strokeLinecap="round" />
         </g>
 
         {/* Base engraving */}
@@ -177,7 +177,7 @@ export function SculptedBottle({ variant, className = "", fillLevel = 0.58 }: Sc
           fontFamily="'Cormorant', Georgia, serif"
           fontSize="11"
           letterSpacing="2"
-          fill="#f1e8d8"
+          fill="#d6c2a8"
           opacity={0.55}
         >
           ELEGANZ

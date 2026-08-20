@@ -1,54 +1,68 @@
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { journalArticles } from "../../data/journal";
-import { useReveal } from "../../hooks/useReveal";
 import { TextureBlock } from "../placeholder/TextureBlock";
 import { ChevronRight } from "../icons";
+import { fadeUp, staggerContainer, viewportOnce } from "../../lib/motion";
+
+const MotionLink = motion.create(Link);
 
 export function JournalPreview() {
-  const { ref, revealed } = useReveal<HTMLDivElement>(0.1);
-
   return (
-    <section id="journal" className="bg-parchment py-[128px]">
-      <div className="container-site">
-        <div className="mb-16 flex items-end justify-between">
+    <section id="journal" className="relative bg-espresso py-[128px]">
+      <div className="container-site relative z-10">
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          className="mb-16 flex items-end justify-between"
+        >
           <div>
-            <p className="label-caps mb-4 text-cognac">The Journal</p>
-            <h2 className="font-display text-[2.4rem] text-espresso">Field Notes</h2>
+            <p className="label-caps mb-4 text-gold">The Journal</p>
+            <h2 className="font-display text-[2.4rem] text-ivory">Field Notes</h2>
           </div>
           <Link
             to="/journal"
-            className="label-caps flex items-center gap-2 text-espresso transition-colors hover:text-cognac"
+            className="label-caps flex items-center gap-2 text-ivory transition-colors hover:text-gold"
           >
             View all articles
             <ChevronRight className="h-3.5 w-3.5" />
           </Link>
-        </div>
+        </motion.div>
 
-        <div ref={ref} className="grid grid-cols-3 gap-10">
-          {journalArticles.map((article, i) => (
-            <Link
+        <motion.div
+          variants={staggerContainer(0.12)}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          className="grid grid-cols-3 gap-10"
+        >
+          {journalArticles.map((article) => (
+            <MotionLink
               key={article.id}
               to={`/journal/${article.slug}`}
-              className="reveal group flex flex-col"
-              data-revealed={revealed}
-              style={{ transitionDelay: `${i * 90}ms` }}
+              variants={fadeUp}
+              whileHover="hover"
+              className="group flex flex-col"
             >
-              <TextureBlock
-                variant={article.texture}
-                className="mb-6 aspect-[4/3] transition-transform duration-500 ease-out group-hover:scale-[1.015]"
-              />
-              <p className="label-caps mb-3 text-sand">
+              <div className="mb-6 overflow-hidden rounded-[4px]">
+                <motion.div variants={{ hover: { scale: 1.06 } }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+                  <TextureBlock variant={article.texture} className="aspect-[4/3]" />
+                </motion.div>
+              </div>
+              <p className="label-caps mb-3 text-bronze">
                 {article.category} &middot; {article.readTime}
               </p>
-              <h3 className="font-display text-[1.35rem] leading-snug text-espresso transition-colors group-hover:text-cognac">
+              <h3 className="font-display text-[1.35rem] leading-snug text-ivory transition-colors group-hover:text-gold">
                 {article.title}
               </h3>
-              <p className="mt-2 text-[0.93rem] leading-relaxed text-ink-soft">
+              <p className="mt-2 text-[0.93rem] leading-relaxed text-ivory/60">
                 {article.excerpt}
               </p>
-            </Link>
+            </MotionLink>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

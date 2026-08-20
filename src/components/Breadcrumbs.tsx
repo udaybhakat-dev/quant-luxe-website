@@ -7,15 +7,15 @@ export interface Crumb {
 
 export function Breadcrumbs({ trail }: { trail: Crumb[] }) {
   return (
-    <nav aria-label="Breadcrumb" className="label-caps flex items-center gap-2 text-ink-soft">
+    <nav aria-label="Breadcrumb" className="label-caps flex items-center gap-2 text-ivory/50">
       {trail.map((crumb, i) => (
         <span key={crumb.label} className="flex items-center gap-2">
           {crumb.to ? (
-            <Link to={crumb.to} className="transition-colors hover:text-cognac">
+            <Link to={crumb.to} className="transition-colors hover:text-gold">
               {crumb.label}
             </Link>
           ) : (
-            <span className="text-espresso" aria-current="page">
+            <span className="text-ivory" aria-current="page">
               {crumb.label}
             </span>
           )}

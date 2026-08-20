@@ -1,8 +1,10 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Breadcrumbs } from "./Breadcrumbs";
 import type { JournalArticle } from "../data/types";
 import { journalArticles } from "../data/journal";
+import { fadeUp, viewportOnce } from "../lib/motion";
 
 interface ArticleShellProps {
   article: JournalArticle;
@@ -14,7 +16,12 @@ export function ArticleShell({ article, children }: ArticleShellProps) {
 
   return (
     <article className="pt-[152px] pb-[128px]">
-      <div className="container-site max-w-[760px]">
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        animate="visible"
+        className="container-site max-w-[760px]"
+      >
         <Breadcrumbs
           trail={[
             { label: "Home", to: "/" },
@@ -23,35 +30,41 @@ export function ArticleShell({ article, children }: ArticleShellProps) {
           ]}
         />
 
-        <p className="label-caps mb-4 mt-10 text-cognac">
+        <p className="label-caps mb-4 mt-10 text-gold">
           {article.category} &middot; {article.readTime}
         </p>
-        <h1 className="font-display text-[2.6rem] leading-[1.1] text-espresso">
+        <h1 className="font-display text-[2.6rem] leading-[1.1] text-ivory">
           {article.title}
         </h1>
 
-        <div className="article-body mt-10 flex flex-col gap-6 text-[1.02rem] leading-relaxed text-ink-soft">
+        <div className="article-body mt-10 flex flex-col gap-6 text-[1.02rem] leading-relaxed text-ivory/70">
           {children}
         </div>
-      </div>
+      </motion.div>
 
-      <div className="container-site mt-24 max-w-[760px] border-t border-sand-line pt-16">
-        <p className="label-caps mb-8 text-cognac">Continue Reading</p>
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        className="container-site mt-24 max-w-[760px] border-t border-bronze/20 pt-16"
+      >
+        <p className="label-caps mb-8 text-gold">Continue Reading</p>
         <div className="flex flex-col gap-6">
           {moreArticles.map((a) => (
             <Link
               key={a.id}
               to={`/journal/${a.slug}`}
-              className="group flex items-baseline justify-between gap-6 border-t border-sand-line pt-5 first:border-t-0 first:pt-0"
+              className="group flex items-baseline justify-between gap-6 border-t border-bronze/20 pt-5 first:border-t-0 first:pt-0"
             >
-              <span className="font-display text-[1.3rem] text-espresso transition-colors group-hover:text-cognac">
+              <span className="font-display text-[1.3rem] text-ivory transition-colors group-hover:text-gold">
                 {a.title}
               </span>
-              <span className="label-caps shrink-0 text-ink-soft">{a.readTime}</span>
+              <span className="label-caps shrink-0 text-ivory/50">{a.readTime}</span>
             </Link>
           ))}
         </div>
-      </div>
+      </motion.div>
     </article>
   );
 }

@@ -1,15 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* Field Notes — colour system (single-accent) */
-  --color-espresso: #241e1a;
-  --color-parchment: #f1e8d8;
-  --color-parchment-deep: #e9dcc4;
-  --color-cognac: #7a4b32;
-  --color-cognac-dark: #5e3a26;
-  --color-sand: #b7a386;
-  --color-sand-line: #d8c9ac;
-  --color-ink-soft: #5a5148;
+  /* Dark Luxury — colour system. Nine tones, each with a defined role:
+     three near-black/chocolate grounds for tonal variation between
+     sections, one deep accent, three warm metals for CTAs/dividers/
+     highlights, and one restrained warm text colour. */
+  --color-void: #0b0908; /* deepest ground — hero, footer, cinematic full-bleed */
+  --color-espresso: #1a100c; /* primary section ground */
+  --color-chocolate: #2a1810; /* secondary section ground, tonal step up from espresso */
+  --color-umber: #3b2418; /* elevated surfaces, cards, panels */
+  --color-mahogany: #4a2118; /* deep warm accent — glows, gradients, borders */
+  --color-cognac: #7a4328; /* primary interactive accent — CTAs, links, active state */
+  --color-gold: #a67c45; /* secondary accent — muted antique gold, dividers, labels */
+  --color-bronze: #8b6540; /* tertiary accent — swatches, quiet borders, icons */
+  --color-ivory: #d6c2a8; /* restrained warm text — headings and primary copy on dark grounds */
 
   --font-display: "Cormorant", Georgia, "Times New Roman", serif;
   --font-body: "Montserrat", "Helvetica Neue", Arial, sans-serif;
@@ -28,8 +32,8 @@
 
   body {
     margin: 0;
-    background: var(--color-parchment);
-    color: var(--color-espresso);
+    background: var(--color-espresso);
+    color: var(--color-ivory);
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.6;
@@ -65,11 +69,11 @@
 
   ::selection {
     background: var(--color-cognac);
-    color: var(--color-parchment);
+    color: var(--color-ivory);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-cognac);
+    outline: 2px solid var(--color-gold);
     outline-offset: 3px;
   }
 }
@@ -90,15 +94,29 @@
     text-transform: uppercase;
   }
 
-  /* Fine paper-grain texture, used sparingly as a background overlay */
+  /* Fine grain texture, used across dark surfaces for tactile depth
+     rather than a flat matte fill. */
   .grain::before {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.05;
-    mix-blend-mode: multiply;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Soft vignette for full-bleed cinematic sections — darkens the outer
+     edges so imagery and text sit in a lit, contained frame. */
+  .vignette {
+    position: relative;
+  }
+  .vignette::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(120% 90% at 50% 40%, transparent 45%, rgba(11, 9, 8, 0.55) 100%);
   }
 
   /* Long-form article typography (Journal pages) */
@@ -106,22 +124,22 @@
     font-family: var(--font-display);
     font-weight: 500;
     font-size: 1.6rem;
-    color: var(--color-espresso);
+    color: var(--color-ivory);
     margin-top: 1rem;
   }
   .article-body h3 {
     font-family: var(--font-display);
     font-weight: 500;
     font-size: 1.25rem;
-    color: var(--color-espresso);
+    color: var(--color-ivory);
   }
   .article-body a {
-    color: var(--color-cognac);
+    color: var(--color-gold);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
   .article-body a:hover {
-    color: var(--color-cognac-dark);
+    color: var(--color-bronze);
   }
   .article-body ul,
   .article-body ol {
@@ -131,46 +149,23 @@
     padding-left: 1.25rem;
   }
   .article-body strong {
-    color: var(--color-espresso);
+    color: var(--color-ivory);
     font-weight: 600;
   }
   .article-body blockquote {
-    border-left: 2px solid var(--color-cognac);
+    border-left: 2px solid var(--color-gold);
     padding-left: 1.5rem;
     font-family: var(--font-display);
     font-style: italic;
     font-size: 1.2rem;
-    color: var(--color-espresso);
-  }
-
-  /* Scroll-reveal primitive: JS toggles data-revealed on intersect */
-  .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .reveal[data-revealed="true"] {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Product photo cross-fade when switching the selected fragrance */
-  @keyframes bottle-photo-in {
-    from {
-      opacity: 0;
-      transform: scale(0.98);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  .bottle-photo {
-    animation: bottle-photo-in 480ms cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--color-ivory);
   }
 
   /* Slow, ambient light drift behind the hero bottle — a single restrained
-     "breathing" glow, not a loop that draws the eye. */
+     "breathing" glow. Kept as a CSS keyframe (not Framer Motion): it's a
+     continuous infinite loop with no coordination to the rest of the
+     page, so a GPU-composited CSS animation is both simpler and cheaper
+     than driving it from JS on every frame. */
   @keyframes ambient-glow-drift {
     0%, 100% {
       transform: translate(-2%, -2%) scale(1);
@@ -185,50 +180,25 @@
     animation: ambient-glow-drift 10s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   }
 
-  /* Slow Ken Burns drift for editorial photography (The Craft, Journal) —
-     scales in gently on reveal, then holds still. */
-  .image-kenburns {
-    transform: scale(1.08);
-    transition: transform 1400ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .image-kenburns[data-revealed="true"] {
-    transform: scale(1);
-  }
-
-  /* Shared premium button hover: a restrained lift + warm glow, used on
-     every filled/outlined CTA site-wide. */
-  .btn-premium {
-    transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1), background-color 250ms ease-out, border-color 250ms ease-out, color 250ms ease-out;
-  }
-  .btn-premium:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 28px -12px rgba(122, 75, 50, 0.55);
-  }
-  .btn-premium:active {
-    transform: translateY(0);
-  }
-  .btn-premium:disabled {
-    transform: none;
-    box-shadow: none;
-  }
-
-  /* Soft testimonial / copy cross-fade */
-  @keyframes copy-fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
+  /* Slow secondary drift for large ambient background washes — same
+     rationale as .ambient-glow, tuned larger/slower for full-section
+     atmosphere rather than a single focal glow. */
+  @keyframes atmosphere-drift {
+    0%, 100% {
+      transform: translate(-3%, -1%) scale(1);
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+    50% {
+      transform: translate(3%, 2%) scale(1.06);
     }
   }
-  .copy-fade {
-    animation: copy-fade-in 620ms cubic-bezier(0.16, 1, 0.3, 1);
+  .atmosphere-drift {
+    animation: atmosphere-drift 16s ease-in-out infinite;
   }
 
-  /* Atmospheric depth overlays for otherwise-flat sections — kept low
-     opacity so they read as lighting, not decoration. */
+  /* Atmospheric depth overlays for section grounds — kept low opacity so
+     they read as lighting, not decoration. Two flavours: a gold-forward
+     wash for chocolate/umber mid-tones, and a mahogany/void vignette for
+     the darkest grounds. */
   .depth-glow-warm {
     position: relative;
   }
@@ -238,8 +208,8 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(60% 70% at 18% 0%, rgba(122, 75, 50, 0.09) 0%, transparent 60%),
-      radial-gradient(50% 60% at 100% 100%, rgba(122, 75, 50, 0.06) 0%, transparent 65%);
+      radial-gradient(60% 70% at 18% 0%, rgba(166, 124, 69, 0.1) 0%, transparent 60%),
+      radial-gradient(50% 60% at 100% 100%, rgba(122, 67, 40, 0.1) 0%, transparent 65%);
   }
   .depth-glow-dark {
     position: relative;
@@ -250,26 +220,22 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(55% 65% at 50% 0%, rgba(201, 134, 63, 0.1) 0%, transparent 62%),
-      radial-gradient(60% 50% at 85% 100%, rgba(0, 0, 0, 0.35) 0%, transparent 60%);
+      radial-gradient(55% 65% at 50% 0%, rgba(166, 124, 69, 0.1) 0%, transparent 62%),
+      radial-gradient(60% 50% at 85% 100%, rgba(0, 0, 0, 0.5) 0%, transparent 60%);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal {
-      opacity: 1 !important;
-      transform: none !important;
-      transition: none !important;
-    }
-    .image-kenburns {
-      transform: none !important;
+    .ambient-glow,
+    .atmosphere-drift {
+      animation: none !important;
     }
   }
 }
 
-/* Global reduced-motion floor: every transition/animation on the site
-   (including the hero's inline transform/transition-delay reveal)
-   resolves near-instantly to its end state instead of being disabled
-   component-by-component. */
+/* Global reduced-motion floor for any remaining plain CSS transitions
+   (Framer Motion components are governed separately by <MotionConfig
+   reducedMotion="user">` in main.tsx, which is the source of truth for
+   everything driven through framer-motion). */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
