@@ -78,10 +78,18 @@ export function SolarisPage() {
                 <span className="label-caps absolute left-6 top-6 text-parchment/90">
                   Flagship
                 </span>
-                <SculptedBottle
-                  variant={solaris.bottleVariant}
-                  className="h-[78%] w-auto drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
-                />
+                {solaris.photoImage ? (
+                  <img
+                    src={solaris.photoImage}
+                    alt="Eleganz Solaris — sculptural amber glass bottle with an engraved profile relief, photographed in warm studio light"
+                    className="h-full w-full object-contain p-10 drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                  />
+                ) : (
+                  <SculptedBottle
+                    variant={solaris.bottleVariant}
+                    className="h-[78%] w-auto drop-shadow-[0_24px_48px_rgba(0,0,0,0.5)]"
+                  />
+                )}
               </BottleStage>
             </div>
 

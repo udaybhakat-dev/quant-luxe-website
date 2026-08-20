@@ -13,6 +13,7 @@ export const products: Product[] = [
     volumeMl: 100,
     texture: "wood",
     bottleVariant: "amber",
+    photoImage: "/images/products/eleganz-solaris-hero.jpg",
     mood: "Fresh citrus energy that settles into quiet confidence — for warm days and long evenings.",
     isFlagship: true,
     tagline: "Fresh citrus. Aromatic sophistication. A deep woody finish.",

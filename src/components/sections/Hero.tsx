@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { products } from "../../data/products";
 import { TextureBlock } from "../placeholder/TextureBlock";
 import { BottleStage } from "../placeholder/BottleStage";
 import { SculptedBottle } from "../placeholder/SculptedBottle";
 import { ChevronRight } from "../icons";
 
 const HEADLINE_LINES = ["Confidence,", "worn quietly."];
+const solaris = products.find((p) => p.slug === "solaris")!;
 
 export function Hero() {
   const [loaded, setLoaded] = useState(false);
@@ -32,7 +34,15 @@ export function Hero() {
         style={{ transitionDelay: "180ms" }}
       >
         <BottleStage className="h-full w-full" glow="#c9863f">
-          <SculptedBottle variant="amber" className="h-[86%] w-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]" />
+          {solaris.photoImage ? (
+            <img
+              src={solaris.photoImage}
+              alt="Eleganz Solaris — sculptural amber glass bottle with an engraved profile relief, photographed in warm studio light"
+              className="h-full w-full object-contain p-10 drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]"
+            />
+          ) : (
+            <SculptedBottle variant="amber" className="h-[86%] w-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]" />
+          )}
         </BottleStage>
       </div>
 

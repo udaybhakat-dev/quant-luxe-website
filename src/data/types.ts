@@ -42,6 +42,8 @@ export interface Product {
   texture: TextureVariant;
   /** Glass colour for the sculpted bottle design system */
   bottleVariant: BottleVariant;
+  /** Path to a photographic product image (public/), used in place of the SculptedBottle SVG where available. */
+  photoImage?: string;
   /** One-line personality/mood or occasion, shown in the collection showcase */
   mood: string;
   /** Marks the house flagship — spotlighted on the homepage grid and given its own PDP */
