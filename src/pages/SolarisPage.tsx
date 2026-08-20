@@ -309,8 +309,10 @@ export function SolarisPage() {
               Eleganz Solaris — {priceFormatter.format(solaris.price)} for {solaris.volumeMl}ml
             </h2>
             <p className="mt-3 max-w-[52ch] text-[0.95rem] leading-relaxed text-parchment/70">
-              Fresh citrus. Aromatic sophistication. A deep woody finish. Add
-              it to your bag and see the full demo checkout flow.
+              Fresh citrus. Aromatic sophistication. A deep woody finish.
+              Ready to buy a luxury perfume for men that's built to last the
+              day? Add Solaris to your bag and see the full demo checkout
+              flow.
             </p>
           </div>
           <button
