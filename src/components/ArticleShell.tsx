@@ -11,6 +11,19 @@ interface ArticleShellProps {
   children: ReactNode;
 }
 
+/**
+ * Single source of truth for the journal-article breadcrumb trail — used
+ * both for the visual <Breadcrumbs> here and for the BreadcrumbList schema
+ * each article page passes to useSeo, so the two can never drift apart.
+ */
+export function getArticleBreadcrumbTrail(article: JournalArticle) {
+  return [
+    { label: "Home", to: "/" },
+    { label: "Journal", to: "/journal" },
+    { label: article.title },
+  ];
+}
+
 export function ArticleShell({ article, children }: ArticleShellProps) {
   const moreArticles = journalArticles.filter((a) => a.id !== article.id);
 
@@ -22,13 +35,7 @@ export function ArticleShell({ article, children }: ArticleShellProps) {
         animate="visible"
         className="container-site max-w-[760px]"
       >
-        <Breadcrumbs
-          trail={[
-            { label: "Home", to: "/" },
-            { label: "Journal", to: "/journal" },
-            { label: article.title },
-          ]}
-        />
+        <Breadcrumbs trail={getArticleBreadcrumbTrail(article)} />
 
         <p className="label-caps mb-4 mt-10 text-gold">
           {article.category} &middot; {article.readTime}

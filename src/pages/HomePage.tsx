@@ -1,4 +1,5 @@
 import { useSeo } from "../hooks/useSeo";
+import { SITE_URL } from "../lib/siteConfig";
 import { Hero } from "../components/sections/Hero";
 import { BrandManifesto } from "../components/sections/BrandManifesto";
 import { SignatureScents } from "../components/sections/SignatureScents";
@@ -13,16 +14,25 @@ export function HomePage() {
     description:
       "Eleganz is a luxury perfume for men by Quant Luxe Lifestyle. Discover Solaris — a long-lasting, fresh-woody fragrance crafted for Indian summers.",
     path: "/",
-    structuredData: {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "Eleganz",
-      brand: "Eleganz",
-      parentOrganization: {
+    structuredData: [
+      {
+        "@context": "https://schema.org",
         "@type": "Organization",
-        name: "Quant Luxe Lifestyle Pvt. Ltd.",
+        name: "Eleganz",
+        brand: "Eleganz",
+        url: SITE_URL,
+        parentOrganization: {
+          "@type": "Organization",
+          name: "Quant Luxe Lifestyle Pvt. Ltd.",
+        },
       },
-    },
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Eleganz",
+        url: SITE_URL,
+      },
+    ],
   });
 
   return (
