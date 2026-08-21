@@ -13,9 +13,24 @@ import { SculptedBottle, VARIANT_SWATCH } from "../components/placeholder/Sculpt
 import { Breadcrumbs } from "../components/Breadcrumbs";
 import { Faq } from "../components/Faq";
 import { ChevronRight } from "../components/icons";
-import { ctaHover, fadeFromLeft, fadeFromRight, fadeUp, staggerContainer, viewportOnce } from "../lib/motion";
+import { ctaHover, EASE_PREMIUM, fadeFromLeft, fadeFromRight, fadeUp, staggerContainer, viewportOnce } from "../lib/motion";
 
 const solaris = products.find((p) => p.slug === "solaris")!;
+
+const NOTE_IMAGES = {
+  top: {
+    src: "/images/products/solaris-top-notes.png",
+    alt: "Solaris perfume top notes: Sicilian bergamot, pink grapefruit and cardamom",
+  },
+  heart: {
+    src: "/images/products/solaris-heart-notes.png",
+    alt: "Solaris perfume heart notes: lavender, geranium and aromatic accord",
+  },
+  base: {
+    src: "/images/products/solaris-base-notes.png",
+    alt: "Solaris perfume base notes: vetiver, cedarwood and amberwood",
+  },
+} as const satisfies Record<"top" | "heart" | "base", { src: string; alt: string }>;
 
 const priceFormatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -213,17 +228,26 @@ export function SolarisPage() {
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
-            className="mt-16 grid grid-cols-3 gap-10"
+            className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 lg:gap-10"
           >
             {(
               [
-                { label: "Top Notes", key: "top", texture: "linen" as const },
-                { label: "Heart Notes", key: "heart", texture: "spice" as const },
-                { label: "Base Notes", key: "base", texture: "wood" as const },
+                { label: "Top Notes", key: "top" },
+                { label: "Heart Notes", key: "heart" },
+                { label: "Base Notes", key: "base" },
               ] as const
             ).map((group) => (
               <motion.div key={group.key} variants={fadeUp}>
-                <TextureBlock variant={group.texture} className="mb-6 aspect-[4/3]" />
+                <div className="relative mb-6 aspect-[4/3] w-full overflow-hidden rounded-[4px]">
+                  <motion.img
+                    src={NOTE_IMAGES[group.key].src}
+                    alt={NOTE_IMAGES[group.key].alt}
+                    className="h-full w-full object-cover"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/50 via-transparent to-transparent" />
+                </div>
                 <p className="label-caps mb-3 text-bronze">{group.label}</p>
                 <ul className="flex flex-col gap-1.5">
                   {solaris.notesDetail?.[group.key].map((note) => (
