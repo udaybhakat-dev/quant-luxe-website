@@ -1,9 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { testimonials } from "../../data/testimonials";
 import { QuoteMark } from "../icons";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { EASE_PREMIUM, fadeUp, viewportOnce } from "../../lib/motion";
 
 const AUTO_ADVANCE_MS = 7000;
+
+const quoteVariants = {
+  enter: { opacity: 0, y: 10 },
+  center: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_PREMIUM } },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.3, ease: EASE_PREMIUM } },
+};
 
 export function SocialProof() {
   const [active, setActive] = useState(0);
@@ -27,7 +35,7 @@ export function SocialProof() {
 
   return (
     <section
-      className="bg-espresso py-[136px] text-parchment"
+      className="depth-glow-dark relative bg-void py-[136px] text-ivory"
       aria-roledescription="carousel"
       aria-label="Client testimonials"
       onMouseEnter={() => setPaused(true)}
@@ -35,16 +43,40 @@ export function SocialProof() {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <div className="container-site flex flex-col items-center text-center">
-        <QuoteMark className="mb-10 h-9 w-11 text-cognac" />
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        className="container-site relative z-10 flex flex-col items-center text-center"
+      >
+        <QuoteMark className="mb-10 h-9 w-11 text-gold" />
 
         <div className="min-h-[168px] max-w-[760px]" aria-live="polite">
-          <p className="font-display text-[1.9rem] font-normal italic leading-[1.4] text-parchment">
-            “{current.quote}”
-          </p>
-          <p className="label-caps mt-8 text-sand">
-            {current.name} &mdash; {current.occasion}
-          </p>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={active}
+              variants={quoteVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="font-display text-[1.9rem] font-normal italic leading-[1.4] text-ivory"
+            >
+              “{current.quote}”
+            </motion.p>
+          </AnimatePresence>
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={`${active}-byline`}
+              variants={quoteVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="label-caps mt-8 text-bronze"
+            >
+              {current.name} &mdash; {current.occasion}
+            </motion.p>
+          </AnimatePresence>
         </div>
 
         <div className="mt-12 flex items-center gap-3">
@@ -58,14 +90,14 @@ export function SocialProof() {
               className="p-1.5"
             >
               <span
-                className={`block h-1.5 w-1.5 rounded-full transition-colors duration-200 ${
-                  i === active ? "bg-cognac" : "bg-parchment/30"
+                className={`block h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
+                  i === active ? "bg-gold" : "bg-ivory/25"
                 }`}
               />
             </button>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
