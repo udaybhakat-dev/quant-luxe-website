@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useSeo } from "../hooks/useSeo";
+import { SITE_URL } from "../lib/siteConfig";
 import { useCart } from "../context/CartContext";
 import { trackEvent } from "../lib/analytics";
 import { products } from "../data/products";
@@ -25,6 +26,8 @@ const priceFormatter = new Intl.NumberFormat("en-IN", {
 const MotionButton = motion.create("button");
 const MotionLink = motion.create(Link);
 
+const breadcrumbTrail = [{ label: "Home", to: "/" }, { label: "Eleganz Solaris" }];
+
 export function SolarisPage() {
   const { addItem } = useCart();
 
@@ -33,11 +36,14 @@ export function SolarisPage() {
     description:
       "Eleganz Solaris — a long lasting perfume for men with fresh citrus, aromatic lavender and a deep woody base. ₹2,999 for 100ml. The luxury perfume for men built for Indian summer.",
     path: "/solaris",
+    image: solaris.photoImage,
+    breadcrumb: breadcrumbTrail,
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Product",
       name: solaris.name,
       description: solaris.description,
+      image: solaris.photoImage ? `${SITE_URL}${solaris.photoImage}` : undefined,
       brand: { "@type": "Brand", name: "Eleganz" },
       manufacturer: { "@type": "Organization", name: "Quant Luxe Lifestyle Pvt. Ltd." },
       offers: {
@@ -70,9 +76,7 @@ export function SolarisPage() {
       {/* Product intro */}
       <section className="pt-[152px] pb-[96px]">
         <div className="container-site">
-          <Breadcrumbs
-            trail={[{ label: "Home", to: "/" }, { label: "Eleganz Solaris" }]}
-          />
+          <Breadcrumbs trail={breadcrumbTrail} />
 
           <div className="mt-10 grid grid-cols-12 gap-16">
             <motion.div variants={fadeFromLeft} initial="hidden" animate="visible" className="col-span-6">

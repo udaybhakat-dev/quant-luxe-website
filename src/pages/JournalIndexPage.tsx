@@ -8,18 +8,21 @@ import { fadeUp, staggerContainer, viewportOnce } from "../lib/motion";
 
 const MotionLink = motion.create(Link);
 
+const breadcrumbTrail = [{ label: "Home", to: "/" }, { label: "Journal" }];
+
 export function JournalIndexPage() {
   useSeo({
     title: "Eleganz Journal | Fragrance Guides for Men",
     description:
       "Practical guides on choosing, wearing and understanding men's fragrance — from the house behind Eleganz Solaris, a luxury perfume for men built for Indian summer.",
     path: "/journal",
+    breadcrumb: breadcrumbTrail,
   });
 
   return (
     <section className="pt-[152px] pb-[128px]">
       <motion.div variants={fadeUp} initial="hidden" animate="visible" className="container-site">
-        <Breadcrumbs trail={[{ label: "Home", to: "/" }, { label: "Journal" }]} />
+        <Breadcrumbs trail={breadcrumbTrail} />
 
         <p className="label-caps mb-4 mt-10 text-gold">The Journal</p>
         <h1 className="max-w-[20ch] font-display text-[2.6rem] text-ivory">

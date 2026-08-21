@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSeo } from "../../hooks/useSeo";
-import { ArticleShell } from "../../components/ArticleShell";
+import { SITE_URL } from "../../lib/siteConfig";
+import { ArticleShell, getArticleBreadcrumbTrail } from "../../components/ArticleShell";
 import { journalArticles } from "../../data/journal";
 
 const article = journalArticles.find((a) => a.slug === "how-to-choose-mens-perfume-for-summer")!;
@@ -10,11 +11,14 @@ export function HowToChoosePage() {
     title: "How to Choose a Men's Perfume for Indian Summer | Eleganz Journal",
     description: article.metaDescription,
     path: `/journal/${article.slug}`,
+    image: article.photoImage,
+    breadcrumb: getArticleBreadcrumbTrail(article),
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Article",
       headline: article.title,
       description: article.metaDescription,
+      image: article.photoImage ? `${SITE_URL}${article.photoImage}` : undefined,
       author: { "@type": "Organization", name: "Eleganz" },
       publisher: { "@type": "Organization", name: "Quant Luxe Lifestyle Pvt. Ltd." },
     },

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /bag
+Disallow: /checkout
+Disallow: /order-confirmation
+
+Sitemap: https://quant-luxe-website.vercel.app/sitemap.xml
