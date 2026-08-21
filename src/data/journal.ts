@@ -13,6 +13,7 @@ export const journalArticles: JournalArticle[] = [
     readTime: "5 min read",
     category: "Guide",
     texture: "linen",
+    photoImage: "/images/products/journal-indian-summer.jpg",
   },
   {
     id: "best-perfume-for-men-in-summer",
@@ -26,6 +27,7 @@ export const journalArticles: JournalArticle[] = [
     readTime: "6 min read",
     category: "Comparison",
     texture: "spice",
+    photoImage: "/images/products/journal-fresh-woody.jpg",
   },
   {
     id: "how-to-apply-perfume",
@@ -39,5 +41,6 @@ export const journalArticles: JournalArticle[] = [
     readTime: "4 min read",
     category: "Craft",
     texture: "paper",
+    photoImage: "/images/products/journal-apply-perfume.jpg",
   },
 ];

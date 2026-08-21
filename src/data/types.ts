@@ -67,6 +67,8 @@ export interface JournalArticle {
   readTime: string;
   category: string;
   texture: TextureVariant;
+  /** Path to a photographic card image (public/), used in place of the TextureBlock pattern where available. */
+  photoImage?: string;
 }
 
 export interface Testimonial {

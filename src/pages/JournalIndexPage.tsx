@@ -45,10 +45,23 @@ export function JournalIndexPage() {
               whileHover="hover"
               className="group flex flex-col"
             >
-              <div className="mb-6 overflow-hidden rounded-[4px]">
-                <motion.div variants={{ hover: { scale: 1.06 } }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
-                  <TextureBlock variant={article.texture} className="aspect-[4/3]" />
+              <div className="relative mb-6 aspect-[4/3] overflow-hidden rounded-[4px]">
+                <motion.div
+                  variants={{ hover: { scale: 1.045 } }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="h-full w-full"
+                >
+                  {article.photoImage ? (
+                    <img
+                      src={article.photoImage}
+                      alt={article.title}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <TextureBlock variant={article.texture} className="h-full w-full" />
+                  )}
                 </motion.div>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/50 via-transparent to-transparent" />
               </div>
               <p className="label-caps mb-3 text-bronze">
                 {article.category} &middot; {article.readTime}
